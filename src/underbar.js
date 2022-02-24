@@ -119,23 +119,32 @@
   _.uniq = function(array, isSorted, iterator) {
     iterator = iterator || _.identity;
     var resultArray = [];
+    var result = [];
 
     _.each(array, function(element) {
-      if (resultArray.indexOf(element) === -1) {
-        resultArray.push(element);
+      if (resultArray.indexOf(iterator(element)) === -1) {
+        resultArray.push(iterator(element));
+        result.push(element);
       }
     });
 
-    return resultArray;
+    return result;
   };
 
 
   // Return the results of applying an iterator to each element.
+  // map() is a useful primitive iteration function that works a lot
+  // like each(), but in addition to running the operation on all
+  // the members, it also maintains an array of results.
   _.map = function(collection, iterator) {
-    // map() is a useful primitive iteration function that works a lot
-    // like each(), but in addition to running the operation on all
-    // the members, it also maintains an array of results.
+    iterator = iterator || _.identity;
+    var resultArray = [];
+    for (var i = 0; i < collection.length; i ++) {
+      resultArray.push(iterator(collection[i]));
+    }
+    return resultArray;
   };
+
 
   /*
    * TIP: map is really handy when you want to transform an array of
